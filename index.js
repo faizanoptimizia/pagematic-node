@@ -10,8 +10,6 @@ const webhookSecret = 'b6d331691df82d12afd2b0149f998dade5c58085b4b5bfe400e4d5de0
 
 app.use(express.json({ verify: (req, res, buf) => { req.rawBody = buf; } }));
 
-// app.use(express.json());
-
 app.post('/webhook', (req, res) => {
   const payload = req.rawBody;
   const signature = req.headers['x-hub-signature-256'];
@@ -34,6 +32,13 @@ app.post('/webhook', (req, res) => {
         }
   
         console.log('Git pull completed successfully:', stdout);
+
+        // Restart the server using pm2
+        exec('pm2 restart index.js', (error) => {
+          if (error) {
+            console.error('Error during server restart:', error);
+          }
+        });
       });
     } else {
       console.log('Ignoring push to branch other than master');
