@@ -29,7 +29,7 @@ app.post('/webhook', (req, res) => {
 });
 
 app.get("/testing", (req, res) => {
-  res.write('A Monk in Cloudzsssaddsasdadsd fucked up'); //write a response to the client
+  res.write('A Monk in Cloudzsssaddsasdadsd fucked asdup'); //write a response to the client
   res.end(); //end the response
 })
 
