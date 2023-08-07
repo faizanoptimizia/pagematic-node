@@ -21,7 +21,7 @@ app.post('/webhook', (req, res) => {
   const calculatedSignature = `sha256=${hmac.digest('hex')}`;
 
   if (crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(calculatedSignature))) {
-    console.log("req.body", req.body)
+    console.log("req.bodyqwe", req.body)
     // Valid payload, do something with the new commit information
     console.log('New commit pushed:', req.body.head_commit.message);
   } else {
@@ -32,7 +32,7 @@ app.post('/webhook', (req, res) => {
 });
 
 app.get("/testing", (req, res) => {
-  res.write('A Monk in Cloud'); //write a response to the client
+  res.write('A Monk in Cloudzsssaddsasdadsd'); //write a response to the client
   res.end(); //end the response
 })
 
