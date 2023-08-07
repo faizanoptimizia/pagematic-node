@@ -38,5 +38,5 @@ app.get("/testing", (req, res) => {
 })
 
 app.listen(port, () => {
-  console.log(`Webhook server listening on port ${port}`);
+  console.log(`Webhook server liasdstening on port ${port}`);
 });
