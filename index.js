@@ -6,7 +6,7 @@ const app = express();
 const port = 4000; // Replace with your desired port
 
 // Replace with your own secret key used in the GitHub webhook configuration
-const webhookSecret = 'adaa4ffa6e3983e55271bae9d7e1800a6c2dc5768134b9aaafe22b6198b665d4';
+const webhookSecret = 'b6d331691df82d12afd2b0149f998dade5c58085b4b5bfe400e4d5de0147664d';
 
 app.use(express.json());
 
