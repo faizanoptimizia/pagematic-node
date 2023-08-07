@@ -23,7 +23,6 @@ app.post('/webhook', (req, res) => {
 
   if (crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(calculatedSignature))) {
     // Valid payload, do something with the new commit information
-    console.log('New commit pushed:', req.body.head_commit.message);
     const { ref } = req.body;
 
     if (ref === 'refs/heads/master') {
@@ -35,7 +34,6 @@ app.post('/webhook', (req, res) => {
         }
   
         console.log('Git pull completed successfully:', stdout);
-        return res.status(200).send('Git pull completed successfully');
       });
     } else {
       console.log('Ignoring push to branch other than master');
