@@ -4,7 +4,7 @@ const crypto = require('crypto');
 const app = express();
 const port = 4000; // Replace with your desired port
 
-// Replace with your own secret key used in the GitHub webhook configuration dasdasd
+// Replace with your own secret key used in the GitHub webhook configuration
 const webhookSecret = 'b6d331691df82d12afd2b0149f998dade5c58085b4b5bfe400e4d5de0147664d';
 
 app.use(express.json({ verify: (req, res, buf) => { req.rawBody = buf; } }));
@@ -33,7 +33,7 @@ app.post('/webhook', (req, res) => {
 });
 
 app.get("/testing", (req, res) => {
-  res.write('A Monk in Cloudzsssaddsasdadsd fucked asdup'); //write a response to the client
+  res.write('A Monk in Cloud'); //write a response to the client
   res.end(); //end the response
 })
 
