@@ -1,6 +1,5 @@
 const express = require('express');
 const crypto = require('crypto');
-const { exec } = require('child_process');
 
 const app = express();
 const port = 4000; // Replace with your desired port
@@ -11,7 +10,6 @@ const webhookSecret = 'b6d331691df82d12afd2b0149f998dade5c58085b4b5bfe400e4d5de0
 app.use(express.json());
 
 app.post('/webhook', (req, res) => {
-
   const payload = JSON.stringify(req.body);
   const signature = req.headers['x-hub-signature-256'];
 
@@ -21,7 +19,6 @@ app.post('/webhook', (req, res) => {
   const calculatedSignature = `sha256=${hmac.digest('hex')}`;
 
   if (crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(calculatedSignature))) {
-    console.log("req.bodyqwe", req.body)
     // Valid payload, do something with the new commit information
     console.log('New commit pushed:', req.body.head_commit.message);
   } else {
