@@ -12,6 +12,7 @@ app.use(express.json());
 
 app.post('/webhook', (req, res) => {
 
+  console.log("req", req)
   const { ref } = req.body;
 
   console.log("ref", ref)
