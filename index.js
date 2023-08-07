@@ -12,6 +12,8 @@ app.use(express.json({ verify: (req, res, buf) => { req.rawBody = buf; } }));
 // app.use(express.json());
 
 app.post('/webhook', (req, res) => {
+  console.log('Raw Body:', req.rawBody); // Check if req.rawBody is defined
+
   const payload = req.rawBody;
   const signature = req.headers['x-hub-signature-256'];
 
