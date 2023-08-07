@@ -1,5 +1,6 @@
 const express = require('express');
 const crypto = require('crypto');
+const { exec } = require('child_process');
 
 const app = express();
 const port = 4000; // Replace with your desired port
@@ -12,8 +13,6 @@ app.use(express.json({ verify: (req, res, buf) => { req.rawBody = buf; } }));
 // app.use(express.json());
 
 app.post('/webhook', (req, res) => {
-  console.log('hello Raw Body:', req.rawBody); // Check if req.rawBody is defined
-
   const payload = req.rawBody;
   const signature = req.headers['x-hub-signature-256'];
 
@@ -24,8 +23,24 @@ app.post('/webhook', (req, res) => {
 
   if (crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(calculatedSignature))) {
     // Valid payload, do something with the new commit information
-    console.log("req.body", req.body)
     console.log('New commit pushed:', req.body.head_commit.message);
+    const { ref } = req.body;
+
+    if (ref === 'refs/heads/master') {
+      // Pull from GitHub when master branch is pushed to
+      exec('git pull origin master', (error, stdout, stderr) => {
+        if (error) {
+          console.error('Error during pull:', error);
+          return res.status(500).send('Error during pull');
+        }
+  
+        console.log('Git pull completed successfully:', stdout);
+        return res.status(200).send('Git pull completed successfully');
+      });
+    } else {
+      console.log('Ignoring push to branch other than master');
+      return res.status(200).send('Ignoring push to branch other than master');
+    }
   } else {
     console.log('Invalid signature');
   }
