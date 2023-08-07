@@ -7,10 +7,12 @@ const port = 4000; // Replace with your desired port
 // Replace with your own secret key used in the GitHub webhook configuration
 const webhookSecret = 'b6d331691df82d12afd2b0149f998dade5c58085b4b5bfe400e4d5de0147664d';
 
-app.use(express.json());
+app.use(express.json({ verify: (req, res, buf) => { req.rawBody = buf; } }));
+
+// app.use(express.json());
 
 app.post('/webhook', (req, res) => {
-  const payload = JSON.stringify(req.body);
+  const payload = req.rawBody;
   const signature = req.headers['x-hub-signature-256'];
 
   const hmac = crypto.createHmac('sha256', webhookSecret);
