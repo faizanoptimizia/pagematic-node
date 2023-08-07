@@ -24,7 +24,7 @@ app.post('/webhook', (req, res) => {
         return res.status(500).send('Error during pull');
       }
 
-      console.log('Git213312213 pull completed successfully:12354', stdout);
+      console.log('Git21331221qewq3 pull completed successfully:12354', stdout);
       return res.status(200).send('Git pull completed successfully');
     });
   } else {
