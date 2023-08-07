@@ -12,7 +12,7 @@ app.use(express.json({ verify: (req, res, buf) => { req.rawBody = buf; } }));
 // app.use(express.json());
 
 app.post('/webhook', (req, res) => {
-  console.log('Raw Body:', req.rawBody); // Check if req.rawBody is defined
+  console.log('hello Raw Body:', req.rawBody); // Check if req.rawBody is defined
 
   const payload = req.rawBody;
   const signature = req.headers['x-hub-signature-256'];
@@ -34,7 +34,7 @@ app.post('/webhook', (req, res) => {
 });
 
 app.get("/testing", (req, res) => {
-  res.write('A Monk in Cloudzsssaddsasdadsd fucked asdup'); //write a response to the client
+  res.write('A Monk in Cloud'); //write a response to the client
   res.end(); //end the response
 })
 
