@@ -12,42 +12,23 @@ app.use(express.json());
 
 app.post('/webhook', (req, res) => {
 
-  console.log("req", req)
-  const { ref } = req.body;
+  const payload = JSON.stringify(req.body);
+  const signature = req.headers['x-hub-signature-256'];
 
-  console.log("ref", ref)
-  if (ref === 'refs/heads/master') {
-    // Pull from GitHub when master branch is pushed to
-    exec('git pull origin master', (error, stdout, stderr) => {
-      if (error) {
-        console.error('Error during pull:', error);
-        return res.status(500).send('Error during pull');
-      }
+  const hmac = crypto.createHmac('sha256', webhookSecret);
+  hmac.update(payload);
 
-      console.log('Git213312213 pull completed successfully:12354', stdout);
-      return res.status(200).send('Git pull completed successfully');
-    });
+  const calculatedSignature = `sha256=${hmac.digest('hex')}`;
+
+  if (crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(calculatedSignature))) {
+    console.log("req.body", req.body)
+    // Valid payload, do something with the new commit information
+    console.log('New commit pushed:', req.body.head_commit.message);
   } else {
-    console.log('Ignoring push to branch other than master');
-    return res.status(200).send('Ignoring push to branch other than master');
+    console.log('Invalid signature');
   }
 
-  // const payload = JSON.stringify(req.body);
-  // const signature = req.headers['x-hub-signature-256'];
-
-  // const hmac = crypto.createHmac('sha256', webhookSecret);
-  // hmac.update(payload);
-
-  // const calculatedSignature = `sha256=${hmac.digest('hex')}`;
-
-  // if (crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(calculatedSignature))) {
-  //   // Valid payload, do something with the new commit information
-  //   console.log('New commit pushed:', req.body.head_commit.message);
-  // } else {
-  //   console.log('Invalid signature');
-  // }
-
-  // res.status(200).send('OK');
+  res.status(200).send('OK');
 });
 
 app.get("/testing", (req, res) => {
