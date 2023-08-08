@@ -71,7 +71,9 @@ app.post('/frontendwebhook', (req, res) => {
       const command = `
         cd ../../frontend/subdomain2 &&
         git pull origin master &&
-        npm run build
+        lsof -i :3000 &&
+        npm run build &&
+        npm start
       `;
 
       exec(command, (error, stdout, stderr) => {
