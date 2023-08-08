@@ -69,7 +69,10 @@ app.post('/frontendwebhook', (req, res) => {
     if (ref === 'refs/heads/master') {
       // Navigate to the project directory and execute commands
       const command = `
-        cd ../../frontend/subdomain2 && lsof -i :3000 && git pull origin master && npm run build && npm start
+        cd ../../frontend/subdomain2 &&
+        git pull origin master &&
+        npm run build &&
+        npm start
       `;
 
       exec(command, (error, stdout, stderr) => {
@@ -77,7 +80,7 @@ app.post('/frontendwebhook', (req, res) => {
           console.error('Error during commands execution:', error);
           return res.status(500).send('Error during commands execution');
         }
-
+        
         console.log('Commands executed successfully:', stdout);
       });
     } else {
