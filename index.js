@@ -56,6 +56,11 @@ app.get("/testing", (req, res) => {
   res.end(); //end the response
 })
 
+app.get("/random", (req, res) => {
+  res.write('hello world'); //write a response to the client
+  res.end(); //end the response
+})
+
 app.listen(port, () => {
   console.log(`Webhook server listening on port ${port}`);
 });
