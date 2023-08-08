@@ -7,7 +7,7 @@ const port = 4000; // Replace with your desired port
 
 // Replace with your own secret key used in the GitHub webhook configuration
 const webhookSecret = 'b6d331691df82d12afd2b0149f998dade5c58085b4b5bfe400e4d5de0147664d';
-
+const frontendSecret = "c0e9a1353575769392e9d4bc2478f9eba41a132567c26893328f5fb6170327a5"
 app.use(express.json({ verify: (req, res, buf) => { req.rawBody = buf; } }));
 
 app.post('/webhook', (req, res) => {
@@ -30,7 +30,7 @@ app.post('/webhook', (req, res) => {
           console.error('Error during pull:', error);
           return res.status(500).send('Error during pull');
         }
-  
+
         console.log('Git pull completed successfully:', stdout);
 
         // Restart the server using pm2
@@ -47,6 +47,50 @@ app.post('/webhook', (req, res) => {
   } else {
     console.log('Invalid signature');
   }
+
+  res.status(200).send('OK');
+});
+
+
+app.post('/frontendwebhook', (req, res) => {
+  const payload = req.rawBody;
+  const signature = req.headers['x-hub-signature-256'];
+
+  const hmac = crypto.createHmac('sha256', frontendSecret);
+  hmac.update(payload);
+
+  const calculatedSignature = `sha256=${hmac.digest('hex')}`;
+
+  if (crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(calculatedSignature))) {
+    // Valid payload, do something with the new commit information
+    console.log("req.body", req.body)
+    const { ref } = req.body;
+
+    if (ref === 'refs/heads/master') {
+      // Navigate to the project directory and execute commands
+      const command = `
+        cd ../../frontend/subdomain2 &&
+        git pull origin master &&
+        npm run build &&
+        npm start
+      `;
+
+      exec(command, (error, stdout, stderr) => {
+        if (error) {
+          console.error('Error during commands execution:', error);
+          return res.status(500).send('Error during commands execution');
+        }
+
+        console.log('Commands executed successfully:', stdout);
+      });
+    } else {
+      console.log('Ignoring push to branch other than master');
+      return res.status(200).send('Ignoring push to branch other than master');
+    }
+  } else {
+    console.log('Invalid signature');
+  }
+
 
   res.status(200).send('OK');
 });
