@@ -71,16 +71,25 @@ app.post('/frontendwebhook', (req, res) => {
       const command = `
         cd ../../frontend/subdomain2 &&
         git pull origin master &&
-        npm run build &&
-        npm start
+        npm run build
       `;
 
+      const commandToStart = `
+      cd ../../frontend/subdomain2 &&
+      npm start
+      `
       exec(command, (error, stdout, stderr) => {
         if (error) {
           console.error('Error during commands execution:', error);
           return res.status(500).send('Error during commands execution');
         }
-        
+
+        // Restart the server using pm2
+        exec(commandToStart, (error) => {
+          if (error) {
+            return console.error('Error during server restart:', error);
+          }
+        });
         console.log('Commands executed successfully:', stdout);
       });
     } else {
