@@ -51,10 +51,10 @@ app.post('/webhook', (req, res) => {
   res.status(200).send('OK');
 });
 
-// app.get("/testing", (req, res) => {
-//   res.write('A Monk in Cloud nopy shopy'); //write a response to the client
-//   res.end(); //end the response
-// })
+app.get("/testing", (req, res) => {
+  res.write('A Monk in Cloud nopy shopy'); //write a response to the client
+  res.end(); //end the response
+})
 
 app.listen(port, () => {
   console.log(`Webhook server listening on port ${port}`);
