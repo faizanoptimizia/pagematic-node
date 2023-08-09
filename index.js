@@ -6,7 +6,7 @@ const app = express();
 const port = 4000; // Replace with your desired port
 
 // Replace with your own secret key used in the GitHub webhook configuration
-const webhookSecret = 'b6d331691df82d12afd2b0149f998dade5c58085b4b5bfe400e4d5de0147664d';
+const webhookSecret = '56e4404b74b6da27a108943d1befaed9b65c9070caecb7828c38c4d7e879f341';
 const frontendSecret = "c0e9a1353575769392e9d4bc2478f9eba41a132567c26893328f5fb6170327a5"
 app.use(express.json({ verify: (req, res, buf) => { req.rawBody = buf; } }));
 
