@@ -99,10 +99,10 @@ app.post('/frontendwebhook', (req, res) => {
   res.status(200).send('OK');
 });
 
-app.get("/testing", (req, res) => {
-  res.write('A Monk in Cloud nopy shopy'); //write a response to the client
-  res.end(); //end the response
-})
+// app.get("/testing", (req, res) => {
+//   res.write('A Monk in Cloud nopy shopy'); //write a response to the client
+//   res.end(); //end the response
+// })
 
 app.get("/random", (req, res) => {
   res.write('hello world'); //write a response to the client
