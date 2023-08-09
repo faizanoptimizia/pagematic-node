@@ -70,14 +70,9 @@ app.post('/frontendwebhook', (req, res) => {
       // Navigate to the project directory and execute commands
       const command = `
         cd ../../frontend/subdomain2 &&
-        git pull origin master &&
-        npm run build
+        git pull origin master
       `;
 
-      const commandToStart = `
-      cd ../../frontend/subdomain2 &&
-      npm start
-      `
       exec(command, (error, stdout, stderr) => {
         if (error) {
           console.error('Error during commands execution:', error);
